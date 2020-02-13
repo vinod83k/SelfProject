@@ -4,3 +4,11 @@
 
 /SelfProject/.vs/SelfProject/v16
 /SelfProject/Project.Web/obj
+/SelfProject/.vs/SelfProject/config
+/SelfProject/Project.CommandProcessor/bin/Debug/netstandard2.0
+/SelfProject/Project.CommandProcessor/obj
+/SelfProject/Project.Commands/bin/Debug/netstandard2.0
+/SelfProject/Project.Commands/obj
+/SelfProject/Project.Web/bin/Debug/netcoreapp3.1
+/SelfProject/Project.Web.Handlers/bin/Debug/netstandard2.0
+/SelfProject/Project.Web.Handlers/obj
