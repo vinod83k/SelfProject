@@ -7,9 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Web", "Project.Web\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.RequestProcessor", "Project.CommandProcessor\Project.RequestProcessor.csproj", "{BF515304-2935-4AF6-8D73-0FB89E7E0F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWeb..Commands", "Project.Commands\ProjectWeb..Commands.csproj", "{0756227A-5CB8-4A50-82FA-8D5006B2AE23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWeb.Commands", "Project.Commands\ProjectWeb.Commands.csproj", "{0756227A-5CB8-4A50-82FA-8D5006B2AE23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Web.Handlers", "Project.Web.Handlers\Project.Web.Handlers.csproj", "{2F41552F-E8D9-40C0-8C56-256C40FB6D80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Services", "Project.Services\Project.Services.csproj", "{37D7653F-EC88-47A6-B16A-370BB8FECAA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Services.NUnitTest", "Project.Services.NUnitTest\Project.Services.NUnitTest.csproj", "{07F4E5AE-DD9C-4D36-A632-8EA480525228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{2F41552F-E8D9-40C0-8C56-256C40FB6D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F41552F-E8D9-40C0-8C56-256C40FB6D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F41552F-E8D9-40C0-8C56-256C40FB6D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D7653F-EC88-47A6-B16A-370BB8FECAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D7653F-EC88-47A6-B16A-370BB8FECAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D7653F-EC88-47A6-B16A-370BB8FECAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D7653F-EC88-47A6-B16A-370BB8FECAA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07F4E5AE-DD9C-4D36-A632-8EA480525228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07F4E5AE-DD9C-4D36-A632-8EA480525228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07F4E5AE-DD9C-4D36-A632-8EA480525228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07F4E5AE-DD9C-4D36-A632-8EA480525228}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

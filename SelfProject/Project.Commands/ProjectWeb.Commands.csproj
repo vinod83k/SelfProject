@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Project.CommandProcessor\Project.RequestProcessor.csproj" />
-    <ProjectReference Include="..\Project.Commands\ProjectWeb.Commands.csproj" />
-    <ProjectReference Include="..\Project.Services\Project.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,25 +1,25 @@
+using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Project.CommandProcessor
 {
     public class RequestProcessor : IRequestProcessor
     {
-        private readonly IServiceProvider _container;
+        private readonly ILifetimeScope _provider;
 
-        public RequestProcessor(IServiceProvider container)
+        public RequestProcessor(ILifetimeScope provider)
         {
-            _container = container;
+            _provider = provider;
         }
-
         public TResult Process<TCommand, TResult>(TCommand command)
             where TCommand : IRequest
             where TResult : RequestResult
         {
-            var handler = _container.GetService(typeof(IRequestHandler<TCommand, TResult>));
+            var handler = _provider.Resolve<IRequestHandler<TCommand, TResult>>();
             try
             {
-                //return handler.Handle(command);
-                return null;
+                return handler.Handle(command);
             }
             catch (Exception ex)
             {
