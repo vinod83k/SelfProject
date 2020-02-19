@@ -16,3 +16,10 @@
 /SelfProject/Project.Services.NUnitTest/obj
 /SelfProject/Project.Services/bin/Debug/netstandard2.0
 /SelfProject/Project.Services/obj
+/SelfProject/S3Reader.Api/bin/Debug/netstandard2.0
+/SelfProject/.vs/SelfProject/DesignTimeBuild
+/SelfProject/S3Reader.Api/obj
+/SelfProject/S3Reader.Console/obj
+/SelfProject/S3Reader.WorkerService/bin/Debug/netcoreapp3.1
+/SelfProject/S3Reader.WorkerService/obj
+/SelfProject/Trader.Data/obj

@@ -3,17 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Web", "Project.Web\Project.Web.csproj", "{364E28D1-F36A-4A5E-9966-94C4697C8D1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Web", "Project.Web\Project.Web.csproj", "{364E28D1-F36A-4A5E-9966-94C4697C8D1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.RequestProcessor", "Project.CommandProcessor\Project.RequestProcessor.csproj", "{BF515304-2935-4AF6-8D73-0FB89E7E0F1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.RequestProcessor", "Project.CommandProcessor\Project.RequestProcessor.csproj", "{BF515304-2935-4AF6-8D73-0FB89E7E0F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWeb.Commands", "Project.Commands\ProjectWeb.Commands.csproj", "{0756227A-5CB8-4A50-82FA-8D5006B2AE23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectWeb.Commands", "Project.Commands\ProjectWeb.Commands.csproj", "{0756227A-5CB8-4A50-82FA-8D5006B2AE23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Web.Handlers", "Project.Web.Handlers\Project.Web.Handlers.csproj", "{2F41552F-E8D9-40C0-8C56-256C40FB6D80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Web.Handlers", "Project.Web.Handlers\Project.Web.Handlers.csproj", "{2F41552F-E8D9-40C0-8C56-256C40FB6D80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Services", "Project.Services\Project.Services.csproj", "{37D7653F-EC88-47A6-B16A-370BB8FECAA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Services", "Project.Services\Project.Services.csproj", "{37D7653F-EC88-47A6-B16A-370BB8FECAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Services.NUnitTest", "Project.Services.NUnitTest\Project.Services.NUnitTest.csproj", "{07F4E5AE-DD9C-4D36-A632-8EA480525228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Services.NUnitTest", "Project.Services.NUnitTest\Project.Services.NUnitTest.csproj", "{07F4E5AE-DD9C-4D36-A632-8EA480525228}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S3Reader.Core", "S3Reader.Api\S3Reader.Core.csproj", "{608701FA-CABD-4B93-978E-0D8449B613AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S3Reader.WorkerService", "S3Reader.WorkerService\S3Reader.WorkerService.csproj", "{FB51BFDD-5834-4F3E-AA42-EDEFC76D19EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Data", "Trader.Data\Trader.Data.csproj", "{33E19597-EBF8-4D0E-A054-E9CE1A992A91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,18 @@ Global
 		{07F4E5AE-DD9C-4D36-A632-8EA480525228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07F4E5AE-DD9C-4D36-A632-8EA480525228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07F4E5AE-DD9C-4D36-A632-8EA480525228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{608701FA-CABD-4B93-978E-0D8449B613AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608701FA-CABD-4B93-978E-0D8449B613AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608701FA-CABD-4B93-978E-0D8449B613AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608701FA-CABD-4B93-978E-0D8449B613AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB51BFDD-5834-4F3E-AA42-EDEFC76D19EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB51BFDD-5834-4F3E-AA42-EDEFC76D19EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB51BFDD-5834-4F3E-AA42-EDEFC76D19EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB51BFDD-5834-4F3E-AA42-EDEFC76D19EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E19597-EBF8-4D0E-A054-E9CE1A992A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E19597-EBF8-4D0E-A054-E9CE1A992A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E19597-EBF8-4D0E-A054-E9CE1A992A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E19597-EBF8-4D0E-A054-E9CE1A992A91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
