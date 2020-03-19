@@ -19,7 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S3Reader.Core", "S3Reader.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S3Reader.WorkerService", "S3Reader.WorkerService\S3Reader.WorkerService.csproj", "{FB51BFDD-5834-4F3E-AA42-EDEFC76D19EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Data", "Trader.Data\Trader.Data.csproj", "{33E19597-EBF8-4D0E-A054-E9CE1A992A91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trader.Data", "Trader.Data\Trader.Data.csproj", "{33E19597-EBF8-4D0E-A054-E9CE1A992A91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgoConsole", "AlgoConsole\AlgoConsole.csproj", "{300EE2B4-D221-4633-960A-5F39771EDAF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cosmos.DataGenerator", "Cosmos.DataGenerator\Cosmos.DataGenerator.csproj", "{EE63DEC4-4DB4-479B-B5FD-CB782D4EA2BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineLearningConsoleApp", "MachineLearningConsoleApp\MachineLearningConsoleApp.csproj", "{8C5A1BC6-B217-4859-A5C4-DF88A0731779}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +69,18 @@ Global
 		{33E19597-EBF8-4D0E-A054-E9CE1A992A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33E19597-EBF8-4D0E-A054-E9CE1A992A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33E19597-EBF8-4D0E-A054-E9CE1A992A91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{300EE2B4-D221-4633-960A-5F39771EDAF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300EE2B4-D221-4633-960A-5F39771EDAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300EE2B4-D221-4633-960A-5F39771EDAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300EE2B4-D221-4633-960A-5F39771EDAF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE63DEC4-4DB4-479B-B5FD-CB782D4EA2BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE63DEC4-4DB4-479B-B5FD-CB782D4EA2BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE63DEC4-4DB4-479B-B5FD-CB782D4EA2BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE63DEC4-4DB4-479B-B5FD-CB782D4EA2BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C5A1BC6-B217-4859-A5C4-DF88A0731779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C5A1BC6-B217-4859-A5C4-DF88A0731779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C5A1BC6-B217-4859-A5C4-DF88A0731779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C5A1BC6-B217-4859-A5C4-DF88A0731779}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

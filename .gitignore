@@ -23,3 +23,8 @@
 /SelfProject/S3Reader.WorkerService/bin/Debug/netcoreapp3.1
 /SelfProject/S3Reader.WorkerService/obj
 /SelfProject/Trader.Data/obj
+/SelfProject/AlgoConsole/bin/Debug/netcoreapp3.1
+/SelfProject/AlgoConsole/obj
+/SelfProject/Cosmos.DataGenerator/bin/Debug/netcoreapp3.1
+/SelfProject/Cosmos.DataGenerator/obj
+/SelfProject/MachineLearningConsoleApp/obj

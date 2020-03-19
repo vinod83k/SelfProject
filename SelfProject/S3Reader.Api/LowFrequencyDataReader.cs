@@ -18,7 +18,7 @@ namespace S3Reader.Core
         private string awsSecretKey;
         private string folterPathPrefix;
 
-        private readonly IAmazonS3 client;
+        private readonly IAmazonS3 s3Client;
         private readonly DynamoDbTableHandler dynamoDbTableHandler;
 
         public LowFrequencyDataReader(AwsS3BucketOptions _options)
@@ -27,19 +27,20 @@ namespace S3Reader.Core
             awsAccessKey = _options.AccessKey;
             awsSecretKey = _options.SecretKey;
             folterPathPrefix = _options.FolderPath;
-            client = new AmazonS3Client(awsAccessKey, awsSecretKey, RegionEndpoint.APSouth1);
+            s3Client = new AmazonS3Client(awsAccessKey, awsSecretKey, RegionEndpoint.APSouth1);
             dynamoDbTableHandler = new DynamoDbTableHandler(_options);
         }
 
         public async Task GetObject()
         {
+            //await dynamoDbTableHandler.GetTableInformation("Alerts");
             ListObjectsRequest request = new ListObjectsRequest
             {
                 BucketName = bucketName,
                 Prefix = folterPathPrefix
             };
 
-            ListObjectsResponse response = await client.ListObjectsAsync(request);
+            ListObjectsResponse response = await s3Client.ListObjectsAsync(request);
             foreach (S3Object obj in response.S3Objects)
             {
                 Console.WriteLine(obj.Key);
@@ -57,7 +58,7 @@ namespace S3Reader.Core
                     BucketName = bucketName,
                     Key = keyName
                 };
-                using (GetObjectResponse response = await client.GetObjectAsync(request))
+                using (GetObjectResponse response = await s3Client.GetObjectAsync(request))
                 using (Stream responseStream = response.ResponseStream)
                 using (StreamReader reader = new StreamReader(responseStream))
                 {
@@ -70,7 +71,6 @@ namespace S3Reader.Core
                     Console.WriteLine(responseBody);
                 }
 
-                await dynamoDbTableHandler.CreateExampleTable();
             }
             catch (AmazonS3Exception e)
             {
