@@ -26,4 +26,10 @@ namespace Cosmos.DataGenerator
             _assets = Utility.PopulateObject<Asset>(database, "Asset");
         }
     }
+
+    public class AssetModel {
+        public string id { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+    }
 }

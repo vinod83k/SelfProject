@@ -26,6 +26,22 @@ namespace Cosmos.DataGenerator
                 }
             }
 
+            //QueryDefinition queryDefinition = new QueryDefinition("select * from ToDos t where t.cost > @expensive")
+            //.WithParameter("@expensive", 9000);
+            //FeedIterator<ToDoActivity> feedIterator = this.Container.GetItemQueryIterator<ToDoActivity>(
+            //    queryDefinition,
+            //    null,
+            //    new QueryRequestOptions() { PartitionKey = new PartitionKey("Error") });
+
+            //while (feedIterator.HasMoreResults)
+            //{
+            //    foreach (var item in await feedIterator.ReadNextAsync())
+            //    {
+            //        {
+            //            Console.WriteLine(item.cost);
+            //        }
+            //    }
+
             return list;
         }
     }

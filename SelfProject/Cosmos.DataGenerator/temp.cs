@@ -10,8 +10,6 @@ namespace Cosmos.DataGenerator
 {
     class Program
     {
-        public static string EndpointUrl = "";
-        public static string PrimaryKey = "";
         public static string DatabaseName = "Wenco-CosmoData"; // "wenco-cosmoDB";
         public static string _siteId = "7509c107-ce13-498e-9ae4-755549491604".ToLower();
         public static string FilePath = @"F:\Vinod\Projects\SelfProject\SelfProject\SelfProject\Cosmos.DataGenerator\csv\";
@@ -26,6 +24,7 @@ namespace Cosmos.DataGenerator
             "SITE","ALARM_PROTOCOL","SENSOR_PROTOCOL","EQUIP_MODEL","EQUIP_TYPE","EQUIP_HEALTH_PROTOCOL","EQUIP","EVENT","HEALTH_PROTOCOL_TYPE" };
 
         static List<ProtocolAlarm> protocolAlarms = new List<ProtocolAlarm>();
+        static List<Protocol> protocols = new List<Protocol>();
         static List<Site> _sites;
         static List<Asset> _assets;
         static List<AssetType> _assetTypes;
@@ -38,6 +37,7 @@ namespace Cosmos.DataGenerator
 
             Site.PopulateCollection(database);
             _sites = Site.GetCollection();
+            tenantId = _sites[0].TenantId.ToString();
 
             Asset.PopulateCollection(database);
             _assets = Asset.GetCollection();
@@ -107,12 +107,44 @@ namespace Cosmos.DataGenerator
             return severity;
         }
 
-        private static async Task CreateAlarmProtocolItems()
+        private static async Task CreateProtocolTypes()
         {
-            Container container = database.GetContainer(WencoContainer.Ids[1]);
+            Container container = database.GetContainer(WencoContainer.Ids[8]);
             if (container == null) return;
 
-            string fileName = $"{FilePath}{WencoContainer.CsvFileNames[1]}.csv";
+            string fileName = $"{FilePath}{WencoContainer.CsvFileNames[8]}.csv";
+
+            var csvData = File.ReadAllLines(fileName);
+
+            foreach (string row in csvData.Skip(1).ToList())
+            {
+                string[] values = row.Split(',');
+
+                // Create an item
+                var item = new Protocol
+                {
+                    id = Convert.ToString(values[0]),
+                    Type = Convert.ToString(values[1]),
+                    Description = Convert.ToString(values[3]),
+                    Version = Convert.ToString(values[2]),
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = string.Empty,
+                    TenantId = tenantId,
+                    PartitionKey = tenantId
+                };
+
+                await CreateReadyLineItem(container, item);
+            }
+
+            Console.WriteLine($"{fileName} processed successfully.");
+        }
+
+        private static async Task CreateAlarmProtocolItems()
+        {
+            Container container = database.GetContainer("ProtocolAlarm_Test");
+            if (container == null) return;
+
+            string fileName = $"{FilePath}ALARM_PROTOCOL.csv";
 
             var csvData = File.ReadAllLines(fileName);
 
@@ -124,13 +156,16 @@ namespace Cosmos.DataGenerator
                 var item = new ProtocolAlarm
                 {
                     id = Guid.NewGuid().ToString().ToLower(),
-                    AlarmId = Convert.ToInt32(values[2]),
+                    Code = Convert.ToInt32(values[2]),
                     EventOEMCode = Convert.ToString(values[1]),
-                    ProtocolId = Convert.ToString(values[0]).ToLower(),
+                    ProtocolId = Convert.ToString(values[0]),
                     Active = Convert.ToString(values[6]) == "Y" ? 1 : 0,
                     Name = Convert.ToString(values[7]),
                     Severity = GetSeverity(Convert.ToString(values[5])),
-                    PartitionKey = _partitionKey
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = string.Empty,
+                    TenantId = tenantId,
+                    PartitionKey = tenantId
                 };
 
                 await CreateReadyLineItem(container, item);
@@ -152,12 +187,13 @@ namespace Cosmos.DataGenerator
                     new CompositePath() { Path = "/Status", Order = CompositePathSortOrder.Ascending }
                 });
 
-            string fileName = $"{FilePath}{WencoContainer.CsvFileNames[7]}.csv";
+            string fileName = $"{FilePath}Event.csv";
 
             var csvData = File.ReadAllLines(fileName);
 
             var insertedProtocolAlarms = new List<EventWithAlarmId>();
             var eventDetails = new List<EventDetail>();
+            var events = new List<Event>();
 
             var rand = new Random();
 
@@ -166,21 +202,18 @@ namespace Cosmos.DataGenerator
                 string[] values = row.Split(',');
                 int assetIndex = rand.Next(0, 10);
 
-                var protocolAlarm = protocolAlarms.FirstOrDefault(x => x.AlarmId == Convert.ToInt32(values[5]));
+                var protocolAlarm = protocolAlarms.FirstOrDefault(x => x.Code == Convert.ToInt32(values[5]));
 
-                if (insertedProtocolAlarms.Exists(x => x.AlarmId == protocolAlarm.AlarmId)) {
-                    var eventSummaryObj = insertedProtocolAlarms.FirstOrDefault(x => x.AlarmId == protocolAlarm.AlarmId);
+                if (insertedProtocolAlarms.Exists(x => x.AlarmId == protocolAlarm.Code)) {
+                    var eventSummaryObj = insertedProtocolAlarms.FirstOrDefault(x => x.AlarmId == protocolAlarm.Code);
                     if (Convert.ToInt32(values[6]) == 0) { // in-active event
-                        eventDetails.Where(x => x.AlarmId == protocolAlarm.AlarmId).OrderByDescending(x => x.EventStartTime).Take(1).FirstOrDefault().EventEndTime = Convert.ToDateTime(values[4]);
+                        eventDetails.Where(x => x.AlarmId == protocolAlarm.Code).OrderByDescending(x => x.EventStartTime).Take(1).FirstOrDefault().EventEndTime = Convert.ToDateTime(values[4]);
                     }
                     else // active event
                     {
                         eventDetails.Add(new EventDetail
                         {
                             id = Guid.NewGuid(),
-                            AlarmId = protocolAlarm.AlarmId,
-                            DocumentType = "EventDetail",
-                            EventId = eventSummaryObj.EventId,
                             EventStartTime = Convert.ToDateTime(values[4])
                         });
                     }
@@ -190,49 +223,54 @@ namespace Cosmos.DataGenerator
                     var asset = _assets.ElementAt(assetIndex);
                     var site = _sites.ElementAt(0);
                     var eventid = Guid.NewGuid().ToString().ToLower();
-                    // Create an item
-                    dynamic item = new
+
+                    // Create an Event item
+                    events.Add(new Event
                     {
                         id = eventid,
                         DocumentType = "Event",
-                        SiteId = site.id,
                         AssetId = asset.id,
-                        ProtocolAlarmId = protocolAlarm.id.ToLower(),
-                        protocolAlarm.EventOEMCode,
-                        Site = new
+                        Site = new Site
                         {
-                            site.id,
-                            site.Name
+                            id = site.id,
+                            Name = site.Name,
+                            OrganizationCode = site.OrganizationCode,
+                            TenantId = site.TenantId
                         },
-                        Asset = new
+                        Asset = new Asset
                         {
-                            asset.id,
-                            asset.Name,
-                            asset.Description,
-                            asset.AssetModelId,
-                            asset.AssetTypeId,
-                            asset.SiteId,
-                            AssetModel = new
-                            {
-                                id = asset.AssetModelId,
-                                Code = asset.AssetModelId,
-                                Name = asset.AssetModelId
-                            },
-                            AssetType = new
-                            {
-                                _assetTypes.FirstOrDefault(x => x.id == asset.AssetTypeId).id,
-                                _assetTypes.FirstOrDefault(x => x.id == asset.AssetTypeId).Value,
-                                _assetTypes.FirstOrDefault(x => x.id == asset.AssetTypeId).Label
-                            }
+                            id = asset.id,
+                            Name = asset.Name,
+                            Description = asset.Description,
+                            AssetModelId = asset.AssetModelId,
+                            AssetTypeId = asset.AssetTypeId,
+                            SiteId = site.id
                         },
-                        ProtocolAlarm = new
+                        AssetModel = new AssetModel
+                        {
+                            id = asset.AssetModelId,
+                            Code = asset.AssetModelId,
+                            Name = asset.AssetModelId
+                        },
+                        AssetType = new AssetType
+                        {
+                            id = _assetTypes.FirstOrDefault(x => x.id == asset.AssetTypeId).id,
+                            Value = _assetTypes.FirstOrDefault(x => x.id == asset.AssetTypeId).Value,
+                            Label = _assetTypes.FirstOrDefault(x => x.id == asset.AssetTypeId).Label
+                        },
+                        ProtocolAlarm = new ProtocolAlarm
                         {
                             id = protocolAlarm.id.ToLower(),
-                            protocolAlarm.Name,
-                            protocolAlarm.Severity,
-                            protocolAlarm.EventOEMCode
+                            Code = protocolAlarm.Code,
+                            Name = protocolAlarm.Name,
+                            Severity = protocolAlarm.Severity,
+                            EventOEMCode = protocolAlarm.EventOEMCode,
+                            ProtocolId = protocolAlarm.ProtocolId,
+                            Active = protocolAlarm.Active
                         },
-                        ProtocolId = Convert.ToString(values[7]).ToLower(),
+                        ProtocolId = protocolAlarm.ProtocolId,
+                        ProtocolType = proto
+                        EventOEMCode = protocolAlarm.EventOEMCode,
                         Type = ((Convert.ToInt32(values[5]) % 10000) < 10) ? "BOUNDRY" :
                             ((Convert.ToInt32(values[5]) % 10000) > 10 && (Convert.ToInt32(values[5]) % 10000) < 20) ? "VIRTUAL" :
                               ((Convert.ToInt32(values[5]) % 10000) > 20 && (Convert.ToInt32(values[5]) % 10000) < 40) ? "SAFETY" :
@@ -240,8 +278,9 @@ namespace Cosmos.DataGenerator
                         CreatedOn = Convert.ToDateTime(values[4]),
                         Active = Convert.ToInt32(values[6]) == 1 ? true : false,
                         Status = "UN-ACK",
-                        PartitionKey = $"{tenantId}-{asset.id}"
-                    };
+                        PartitionKey = $"{tenantId}-{asset.id}",
+                        EventDetails = new List<EventDetail>()
+                    });
 
                     insertedProtocolAlarms.Add(new EventWithAlarmId { EventId = eventid, AlarmId = protocolAlarm.AlarmId });
 
@@ -254,43 +293,23 @@ namespace Cosmos.DataGenerator
                         EventStartTime = Convert.ToDateTime(values[4])
                     });
 
-                    await CreateReadyLineItem(container, item);
+                    //await CreateReadyLineItem(container, item);
                 }
             }
 
-            foreach (var eventDetail in eventDetails)
+            foreach (var evnt in events)
             {
-                await CreateReadyLineItem(container, eventDetail);
+                var eventDtls = eventDetails.Where(x => x.EventId == evnt.id).ToList();
+                evnt.EventDetails = eventDtls;
+
+                await CreateReadyLineItem(container, evnt);
             }
 
-            Console.WriteLine($"{fileName} processed successfully.");
-        }
+            //foreach (var eventDetail in eventDetails)
+            //{
 
-        private static async Task CreateProtocolTypes()
-        {
-            Container container = database.GetContainer(WencoContainer.Ids[8]);
-            if (container == null) return;
-
-            string fileName = $"{FilePath}{WencoContainer.CsvFileNames[8]}.csv";
-
-            var csvData = File.ReadAllLines(fileName);
-
-            foreach (string row in csvData.Skip(1).ToList())
-            {
-                string[] values = row.Split(',');
-
-                // Create an item
-                dynamic item = new
-                {
-                    id = Convert.ToString(values[0]),
-                    Code = Convert.ToString(values[1]),
-                    Description = Convert.ToString(values[3]),
-                    version = Convert.ToString(values[2]),
-                    PartitionKey = tenantId
-                };
-
-                await CreateReadyLineItem(container, item);
-            }
+            //    await CreateReadyLineItem(container, eventDetail);
+            //}
 
             Console.WriteLine($"{fileName} processed successfully.");
         }
